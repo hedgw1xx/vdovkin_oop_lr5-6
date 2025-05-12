@@ -29,7 +29,7 @@ int main() {
     for (const auto &item : menu) {
       cout << item.first << ". " << item.second.first << "\n";
     }
-    cout << "• 0. Exit" << endl;
+    cout << "0. Exit" << endl;
 
     EnterInt(cin, choice, "Enter your choice: ")();
 

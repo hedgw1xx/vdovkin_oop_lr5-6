@@ -1,8 +1,13 @@
 #include "vdovkin_LR5_6_Methods.hpp"
+#include "vdovkin_LR5_6_AgriculturalProcess.hpp"
+#include "vdovkin_LR5_6_CropCultivation.hpp"
+#include "vdovkin_LR5_6_Livestock.hpp"
+#include "vdovkin_def.hpp"
 
 void createCropCultivation(ProcessMap &processes) {
   auto process = make_unique<CropCultivation>();
   cin >> *process;
+  cout << *process << endl;
   if (processes.find(process->getProcessID()) != processes.end()) {
     cout << "Process with ID " << process->getProcessID()
          << " already exists.\n";
@@ -14,6 +19,7 @@ void createCropCultivation(ProcessMap &processes) {
 void createLivestock(ProcessMap &processes) {
   auto process = make_unique<Livestock>();
   cin >> *process;
+  cout << *process << endl;
   if (processes.find(process->getProcessID()) != processes.end()) {
     cout << "Process with ID " << process->getProcessID()
          << " already exists.\n";
@@ -25,6 +31,7 @@ void createLivestock(ProcessMap &processes) {
 void createIrrigationSystem(ProcessMap &processes) {
   auto process = make_unique<IrrigationSystem>();
   cin >> *process;
+  cout << *process << endl;
   if (processes.find(process->getProcessID()) != processes.end()) {
     cout << "Process with ID " << process->getProcessID()
          << " already exists.\n";
@@ -39,19 +46,53 @@ void displayProcesses(const ProcessMap &processes) {
   }
 }
 
-void calculateCostForProcess(const ProcessMap &processes) {
-  string id;
-  EnterString(cin, id, "Enter process ID: ")();
-  auto it = processes.find(id);
-  if (it != processes.end()) {
-    cout << "Cost: " << it->second->calculateCost() << endl;
-  } else {
-    cout << "Process not found.\n";
-  }
-}
-
 void startAllProcesses(const ProcessMap &processes) {
   for (const auto &pair : processes) {
-    pair.second->startProcess();
+    cout << "Process ID: " << pair.first << endl;
+
+    // Вызов validate()
+    bool isValid = pair.second->validate();
+    cout << "Validation: " << (isValid ? "passed" : "failed") << endl;
+
+    if (isValid) {
+      pair.second->startProcess();
+    }
+
+    if (auto agriPtr = dynamic_cast<AgriculturalProcess *>(pair.second.get())) {
+      if (*(dynamic_cast<AgriculturalProcess *>(pair.second.get())) ==
+          *(dynamic_cast<AgriculturalProcess *>(pair.second.get()))) {
+        cout << "Process's ID are identical" << endl;
+      } else {
+        cout << "Process's ID are different" << endl;
+      }
+    }
+
+    if (auto cropPtr = dynamic_cast<CropCultivation *>(pair.second.get())) {
+      *(dynamic_cast<CropCultivation *>(pair.second.get())) += 100.0;
+      cout << *(dynamic_cast<CropCultivation *>(pair.second.get())) << endl;
+
+      cropPtr->optimizeIrrigation();
+    }
+
+    if (auto irrigationPtr =
+            dynamic_cast<IrrigationSystem *>(pair.second.get())) {
+      cout << "Погода: " << irrigationPtr->getWeather() << endl;
+      irrigationPtr->emergencyShutdown();
+    }
+
+    if (auto livestockPtr = dynamic_cast<Livestock *>(pair.second.get())) {
+      cout << "Before animal addition: \n";
+      cout << *(dynamic_cast<Livestock *>(pair.second.get())) << endl;
+      cout << "After animal addition: \n";
+      cout << *(dynamic_cast<Livestock *>(pair.second.get())) +
+                  *(dynamic_cast<Livestock *>(pair.second.get()))
+           << endl;
+      livestockPtr->scheduleVaccination();
+    }
+
+    double cost = pair.second->calculateCost();
+    cout << "Cost: " << cost << " у.е." << endl;
+
+    cout << "\n-----------------------------" << endl;
   }
 }

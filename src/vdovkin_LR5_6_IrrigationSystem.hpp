@@ -22,7 +22,6 @@ public:
   double calculateCost() const override;
   bool validate() const override;
 
-  string getWeather() const override;
   void emergencyShutdown();
 };
 

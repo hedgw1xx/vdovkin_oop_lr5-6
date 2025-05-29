@@ -11,7 +11,6 @@ void createCropCultivation(ProcessMap &processes);
 void createLivestock(ProcessMap &processes);
 void createIrrigationSystem(ProcessMap &processes);
 void displayProcesses(const ProcessMap &processes);
-void calculateCostForProcess(const ProcessMap &processes);
 void startAllProcesses(const ProcessMap &processes);
 
 #endif // VDOVKIN_LR5_6_METHODS_H

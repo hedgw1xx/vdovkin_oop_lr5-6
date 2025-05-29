@@ -1,4 +1,5 @@
 #include "vdovkin_LR5_6_AgriculturalProcess.hpp"
+#include <ostream>
 
 AgriculturalProcess::AgriculturalProcess()
     : processID("unknown"), area(0.0), isActive(false) {}
@@ -9,10 +10,16 @@ AgriculturalProcess::AgriculturalProcess(const string &id)
 AgriculturalProcess::~AgriculturalProcess() {}
 
 istream &AgriculturalProcess::input(istream &is) {
-  EnterString(is, processID, "Enter process ID: ")();
-  EnterDouble(is, area, "Enter area (hectares): ")();
-  EnterBool(is, isActive, "Is active (0/1): ")();
+  Enter(is, processID, "Enter process ID: ")();
+  Enter(is, area, "Enter area (hectares): ")();
+  Enter(is, isActive, "Is active (0/1): ")();
   return is;
+}
+
+ostream &AgriculturalProcess::print(ostream &os) const {
+  os << "ID: " << processID << ", Area: " << area
+     << " ha, Active: " << (isActive ? "Yes" : "No");
+  return os;
 }
 
 bool AgriculturalProcess::validate() const { return area > 0; }

@@ -16,9 +16,6 @@ int main() {
        {"Display all processes",
         [&processes]() { displayProcesses(processes); }}},
       {5,
-       {"Calculate cost for a process",
-        [&processes]() { calculateCostForProcess(processes); }}},
-      {6,
        {"Start all processes",
         [&processes]() { startAllProcesses(processes); }}},
   };
@@ -29,9 +26,9 @@ int main() {
     for (const auto &item : menu) {
       cout << item.first << ". " << item.second.first << "\n";
     }
-    cout << "• 0. Exit" << endl;
+    cout << "0. Exit" << endl;
 
-    EnterInt(cin, choice, "Enter your choice: ")();
+    Enter(cin, choice, "Enter your choice: ")();
 
     if (choice == 0) {
       cout << "© 2025 Eugene Vdovkin" << endl;
@@ -39,8 +36,10 @@ int main() {
     }
 
     if (menu.find(choice) != menu.end()) {
+      clearTerminal();
       menu[choice].second();
     } else {
+      clearTerminal();
       cout << "Invalid choice\n";
     }
   }

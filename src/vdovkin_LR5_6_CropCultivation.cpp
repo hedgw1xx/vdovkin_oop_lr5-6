@@ -1,4 +1,5 @@
 #include "vdovkin_LR5_6_CropCultivation.hpp"
+#include "vdovkin_LR5_6_AgriculturalProcess.hpp"
 
 CropCultivation::CropCultivation() : cropType("unknown"), yield(0.0) {}
 CropCultivation::CropCultivation(const CropCultivation &other)
@@ -10,15 +11,14 @@ CropCultivation::~CropCultivation() {}
 
 istream &CropCultivation::input(istream &is) {
   AgriculturalProcess::input(is);
-  EnterString(is, cropType, "Enter crop type: ")();
-  EnterDouble(is, yield, "Enter expected yield (tons): ")();
+  Enter(is, cropType, "Enter crop type (ex. wheat): ")();
+  Enter(is, yield, "Enter expected yield (tons): ")();
   return is;
 }
 
 ostream &CropCultivation::print(ostream &os) const {
-  os << "CropCultivation [ID: " << processID << ", Area: " << area
-     << " ha, Active: " << (isActive ? "Yes" : "No")
-     << ", Crop Type: " << cropType << ", Yield: " << yield << " tons]";
+  AgriculturalProcess::print(os);
+  os << ", Crop Type: " << cropType << ", Yield: " << yield << " tons";
   return os;
 }
 
@@ -33,7 +33,7 @@ double CropCultivation::calculateCost() const {
 bool CropCultivation::validate() const {
   if (!AgriculturalProcess::validate())
     return false;
-  if (cropType == "wheat" && yield > 10)
+  if (cropType == "wheat" && yield <= 10)
     return false;
   return true;
 }

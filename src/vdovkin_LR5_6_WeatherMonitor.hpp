@@ -4,8 +4,16 @@
 #include "vdovkin_def.hpp"
 
 class WeatherMonitor {
+protected:
+  string weather;
+
 public:
-  virtual string getWeather() const = 0;
+  WeatherMonitor() : weather("unknown") {}
+  WeatherMonitor(const WeatherMonitor &other) : weather(other.weather) {}
+  WeatherMonitor(const string &newWeather) : weather(newWeather) {}
+
+  virtual string getWeather() const { return weather; }
+  virtual void setWeather(const string &newWeather) { weather = newWeather; }
   virtual ~WeatherMonitor() {}
 };
 

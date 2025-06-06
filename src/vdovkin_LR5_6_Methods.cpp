@@ -58,13 +58,10 @@ void startAllProcesses(const ProcessMap &processes) {
       pair.second->startProcess();
     }
 
-    if (auto agriPtr = dynamic_cast<AgriculturalProcess *>(pair.second.get())) {
-      if (*(dynamic_cast<AgriculturalProcess *>(pair.second.get())) ==
-          *(dynamic_cast<AgriculturalProcess *>(pair.second.get()))) {
-        cout << "Process's ID are identical" << endl;
-      } else {
-        cout << "Process's ID are different" << endl;
-      }
+    if (pair.second == pair.second) {
+      cout << "Process's ID are identical" << endl;
+    } else {
+      cout << "Process's ID are different" << endl;
     }
 
     if (auto cropPtr = dynamic_cast<CropCultivation *>(pair.second.get())) {
